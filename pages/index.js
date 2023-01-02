@@ -1,14 +1,17 @@
-import Head from 'next/head';
-import HomeLayout from '../components/layouts/HomeLayout';
-import Comment from '../components/ui/molecules/Comment';
-import Hero from '../components/ui/organisms/Hero';
-import NewComment from '../components/ui/organisms/NewComment';
-import Login from '../components/ui/organisms/Login';
-import { Comments } from '../components/assets/Comments';
+import Head from "next/head";
+import HomeLayout from "../components/layouts/HomeLayout";
+import Comment from "../components/ui/molecules/Comment";
+import Hero from "../components/ui/organisms/Hero";
+import NewComment from "../components/ui/organisms/NewComment";
+import Login from "../components/ui/organisms/Login";
+import { Comments } from "../components/assets/Comments";
+import { useSelector } from "react-redux"; // updated
+import { selectComments } from "../store/slices/commentSlice";
+import { selectAuthState } from "../store/slices/authSlice"; //updated
 
 export default function Home() {
-  const comments = Comments.value;
-
+  const authState = useSelector(selectAuthState); // updated
+  const comments = useSelector(selectComments);
   return (
     <div>
       <Head>
@@ -32,9 +35,8 @@ export default function Home() {
           ))}
         </section>
 
-        {/* Input Section */}
-        <NewComment />
-        <Login />
+        {/* Input Section - updated */}
+        {authState ? <NewComment /> : <Login />}
       </HomeLayout>
     </div>
   );
